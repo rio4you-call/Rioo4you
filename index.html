@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DanaKu - Dompet Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET & DASAR ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 80px; /* Ruang untuk bottom-nav */
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #fff;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+
+        /* ===== HEADER ===== */
+        .app-header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 20px 20px 30px 20px;
+            border-radius: 0 0 25px 25px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .menu-btn, .icon-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+        .logo span { color: #ffde59; }
+
+        .user-welcome p { font-size: 0.95rem; opacity: 0.9; }
+
+        /* ===== KARTU SALDO ===== */
+        .balance-card {
+            background: white;
+            margin: -20px 20px 25px 20px;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .balance-info p { color: #666; font-size: 0.9rem; }
+        .balance-info h2 {
+            color: #2d3436;
+            font-size: 2.2rem;
+            margin: 5px 0;
+        }
+        .account-number { color: #aaa; font-size: 0.85rem; }
+
+        .balance-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .action-btn {
+            background: #f1f3f9;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            color: #444;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        .action-btn:hover { background: #e2e6f0; transform: translateY(-2px); }
+        .action-btn i { font-size: 1rem; }
+
+        /* ===== MENU CEPAT ===== */
+        .quick-actions {
+            padding: 0 20px 25px 20px;
+        }
+        .quick-actions h3 { margin-bottom: 20px; color: #2d3436; }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px 15px;
+            text-align: center;
+        }
+
+        .action-item p {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .icon-circle {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            color: white;
+            font-size: 1.3rem;
+        }
+        /* Warna untuk ikon */
+        .bg-blue { background: #4a7dff; }
+        .bg-green { background: #2ecc71; }
+        .bg-orange { background: #ff9f43; }
+        .bg-purple { background: #9b59b6; }
+        .bg-red { background: #ff6b6b; }
+        .bg-teal { background: #1dd1a1; }
+
+        /* ===== BANNER PROMO ===== */
+        .promo-banner {
+            background: linear-gradient(to right, #ffeaa7, #fab1a0);
+            margin: 0 20px 25px 20px;
+            padding: 18px;
+            border-radius: 16px;
+        }
+        .banner-content h4 {
+            color: #d63031;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        .banner-content a {
+            color: #0984e3;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* ===== RIWAYAT TRANSAKSI ===== */
+        .transaction-history { padding: 0 20px; }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .see-all { color: #6a11cb; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+
+        .transaction-list { display: flex; flex-direction: column; gap: 18px; }
+        .transaction-item {
+            display: flex;
+            align-items: center;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #eee;
+        }
+        .transaction-item:last-child { border-bottom: none; }
+
+        .transaction-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-right: 15px;
+            color: #fff;
+        }
+        .bg-light-blue { background: #74b9ff; }
+        .bg-light-green { background: #55efc4; }
+        .bg-light-orange { background: #fd79a8; }
+
+        .transaction-detail { flex-grow: 1; }
+        .transaction-detail .title { font-weight: 600; color: #2d3436; }
+        .transaction-detail .desc { font-size: 0.85rem; color: #888; margin-top: 3px; }
+
+        .transaction-amount {
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+        .credit { color: #2ecc71; }
+        .debit { color: #e74c3c; }
+
+        /* ===== NAVIGASI BAWAH ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 10px;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #95a5a6;
+            text-decoration: none;
+            font-size: 0.75rem;
+            transition: color 0.3s;
+        }
+        .nav-item i { font-size: 1.3rem; margin-bottom: 5px; }
+        .nav-item.active { color: #6a11cb; font-weight: 600; }
+
+        .qr-scan {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white !important;
+            padding: 15px;
+            border-radius: 50%;
+            margin-top: -35px;
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        }
+        .qr-scan i { font-size: 1.8rem; margin-bottom: 0; }
+
+        /* ===== RESPONSIF UNTUK TABLET/HP ===== */
+        @media (max-width: 480px) {
+            .container { box-shadow: none; }
+            .balance-info h2 { font-size: 1.9rem; }
+            .action-btn { padding: 10px 15px; font-size: 0.85rem; }
+            .action-grid { grid-template-columns: repeat(3, 1fr); gap: 20px 10px; }
+            .icon-circle { width: 50px; height: 50px; font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header / Navbar -->
+        <header class="app-header">
+            <div class="header-top">
+                <button class="menu-btn"><i class="fas fa-bars"></i></button>
+                <h1 class="logo">Dana<span>Ku</span></h1>
+                <div class="header-icons">
+                    <button class="icon-btn"><i class="fas fa-bell"></i></button>
+                    <button class="icon-btn"><i class="fas fa-user-circle"></i></button>
+                </div>
+            </div>
+            <div class="user-welcome">
+                <p>Halo, <strong>Nama Pengguna</strong></p>
+            </div>
+        </header>
+
+        <!-- Saldo Utama -->
+        <section class="balance-card">
+            <div class="balance-info">
+                <p>Saldo Tersedia</p>
+                <h2>Rp 2.450.000</h2>
+                <p class="account-number">***-****-1234</p>
+            </div>
+            <div class="balance-actions">
+                <button class="action-btn"><i class="fas fa-plus"></i> Top Up</button>
+                <button class="action-btn"><i class="fas fa-arrow-up"></i> Kirim</button>
+                <button class="action-btn"><i class="fas fa-history"></i> Riwayat</button>
+            </div>
+        </section>
+
+        <!-- Menu Cepat -->
+        <section class="quick-actions">
+            <h3>Layanan Cepat</h3>
+            <div class="action-grid">
+                <div class="action-item">
+                    <div class="icon-circle bg-blue"><i class="fas fa-bolt"></i></div>
+                    <p>Bayar</p>
+                </div>
+                <div class="action-item">
+                    <div class="icon-circle bg-green"><i class="fas fa-mobile-alt"></i></div>
+                    <p>Pulsa</p>
+                </div>
+                <div class="action-item">
+                    <div class="icon-circle bg-orange"><i class="fas fa-lightbulb"></i></div>
+                    <p>Listrik</p>
+                </div>
+                <div class="action-item">
+                    <div class="icon-circle bg-purple"><i class="fas fa-gamepad"></i></div>
+                    <p>E-Wallet</p>
+                </div>
+                <div class="action-item">
+                    <div class="icon-circle bg-red"><i class="fas fa-train"></i></div>
+                    <p>Transport</p>
+                </div>
+                <div class="action-item">
+                    <div class="icon-circle bg-teal"><i class="fas fa-ellipsis-h"></i></div>
+                    <p>Lainnya</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Promo / Iklan Banner -->
+        <section class="promo-banner">
+            <div class="banner-content">
+                <h4><i class="fas fa-gift"></i> Dapatkan Cashback 50%</h4>
+                <p>Berlaku untuk transaksi pertama dengan QRIS. <a href="#">Klaim Sekarang</a></p>
+            </div>
+        </section>
+
+        <!-- Transaksi Terakhir -->
+        <section class="transaction-history">
+            <div class="section-header">
+                <h3>Transaksi Terakhir</h3>
+                <a href="#" class="see-all">Lihat Semua</a>
+            </div>
+            <div class="transaction-list">
+                <div class="transaction-item">
+                    <div class="transaction-icon bg-light-blue">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="transaction-detail">
+                        <p class="title">Belanja Supermarket</p>
+                        <p class="desc">15 Des 2025 • 14:20</p>
+                    </div>
+                    <div class="transaction-amount debit">
+                        -Rp 125.000
+                    </div>
+                </div>
+                <div class="transaction-item">
+                    <div class="transaction-icon bg-light-green">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="transaction-detail">
+                        <p class="title">Transfer Masuk</p>
+                        <p class="desc">Dari: Budi Santoso</p>
+                    </div>
+                    <div class="transaction-amount credit">
+                        +Rp 500.000
+                    </div>
+                </div>
+                <div class="transaction-item">
+                    <div class="transaction-icon bg-light-orange">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <div class="transaction-detail">
+                        <p class="title">Pembayaran Internet</p>
+                        <p class="desc">Paket Bulanan</p>
+                    </div>
+                    <div class="transaction-amount debit">
+                        -Rp 299.000
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigasi Bawah -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-credit-card"></i>
+                <span>Kartu</span>
+            </a>
+            <a href="#" class="nav-item qr-scan">
+                <i class="fas fa-qrcode"></i>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-chart-pie"></i>
+                <span>Statistik</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profil</span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        // Skrip sederhana untuk interaksi tombol
+        document.querySelectorAll('.action-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                alert('Fitur "' + this.textContent.trim() + '" akan dibuka.');
+            });
+        });
+        
+        // Tambahan fungsi untuk menu hamburger
+        document.querySelector('.menu-btn').addEventListener('click', function() {
+            alert('Menu navigasi dibuka');
+        });
+        
+        // Fungsi untuk notifikasi
+        document.querySelector('.fa-bell').closest('.icon-btn').addEventListener('click', function() {
+            alert('Anda memiliki 3 notifikasi baru');
+        });
+        
+        // Fungsi untuk tombol profil
+        document.querySelector('.fa-user-circle').closest('.icon-btn').addEventListener('click', function() {
+            alert('Halaman profil dibuka');
+        });
+    </script>
+</body>
+</html>
